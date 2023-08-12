@@ -57,15 +57,34 @@ public class EmployeeController {
         // check if employee exists
         if (existingEmployee != null) {
             // update employee
-            existingEmployee.setEmployeeName(employee.getEmployeeName());
-            existingEmployee.setEmailAddress(employee.getEmailAddress());
-            existingEmployee.setIcNumber(employee.getIcNumber());
-            existingEmployee.setDateOfBirth(employee.getDateOfBirth());
+            existingEmployee.setEmployeePassword(employee.getEmployeePassword());
             existingEmployee.setAddress(employee.getAddress());
             existingEmployee.setQualifications(employee.getQualifications());
             existingEmployee.setSkills(employee.getSkills());
             existingEmployee.setReportsTo(employee.getReportsTo());
             existingEmployee.setEmergencyContact(employee.getEmergencyContact());
+
+            // save employee
+            Employee updatedEmployee = employeeService.saveEmployee(existingEmployee);
+
+            // return response
+            return ResponseEntity.ok(updatedEmployee);
+        } else {
+            // return response
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    // update password by id
+    @PutMapping("/password/{employeeId}")
+    public ResponseEntity<Employee> updateEmployeePasswordById(@RequestBody Employee employee, @PathVariable Long employeeId) throws URISyntaxException {
+        // get employee by id
+        Employee existingEmployee = employeeService.getEmployeeById(employeeId);
+
+        // check if employee exists
+        if (existingEmployee != null) {
+            // update employee
+            existingEmployee.setEmployeePassword(employee.getEmployeePassword());
 
             // save employee
             Employee updatedEmployee = employeeService.saveEmployee(existingEmployee);
