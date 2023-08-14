@@ -77,7 +77,7 @@ public class ClaimController {
 
     // delete claim by id
     @DeleteMapping("/{claimId}")
-    public ResponseEntity<Claim> deleteClaimById(@PathVariable Long claimId) {
+    public String deleteClaimById(@PathVariable Long claimId) {
         // get claim by id
         Claim existingClaim = claimService.findById(claimId);
 
@@ -87,9 +87,9 @@ public class ClaimController {
             claimService.deleteClaimById(claimId);
 
             // return response
-            return ResponseEntity.ok(existingClaim);
+            return "Claim deleted successfully";
         }
         // return response
-        return ResponseEntity.notFound().build();
+        return "Claim not found";
     }
 }
