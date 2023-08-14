@@ -26,7 +26,7 @@ public class LeaveApplication {
     private String leaveStatus;
 
     @ManyToOne
-    @JoinColumn(name = "employee_id")
+    @JoinColumn(name = "employee_id", nullable = false)
     private Employee employee;
 
     // method to convert the string to local date object
