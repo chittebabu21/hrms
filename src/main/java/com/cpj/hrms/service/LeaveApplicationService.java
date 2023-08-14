@@ -27,7 +27,7 @@ public class LeaveApplicationService {
 
     // find leave application by employee id
     public List<LeaveApplication> getLeaveApplicationByEmployeeId(Long employeeId) {
-        return (List<LeaveApplication>) leaveApplicationRepository.findByEmployee_EmployeeId(employeeId);
+        return leaveApplicationRepository.findByEmployee_EmployeeId(employeeId);
     }
 
     // save leave application

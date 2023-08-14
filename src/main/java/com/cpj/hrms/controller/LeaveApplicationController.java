@@ -31,8 +31,8 @@ public class LeaveApplicationController {
 
     // get leave application by employee id
     @GetMapping("/employee/{employeeId}")
-    public LeaveApplication getLeaveApplicationByEmployeeId(@PathVariable Long employeeId) {
-        return (LeaveApplication) leaveApplicationService.getLeaveApplicationByEmployeeId(employeeId);
+    public ResponseEntity<Iterable<LeaveApplication>> getLeaveApplicationByEmployeeId(@PathVariable Long employeeId) {
+        return ResponseEntity.ok(leaveApplicationService.getLeaveApplicationByEmployeeId(employeeId));
     }
 
     // post new leave application
