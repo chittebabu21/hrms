@@ -45,24 +45,21 @@ public class MCSubmissionController {
 
     // post new mc submission
     @PostMapping
-    public ResponseEntity<MCSubmission> saveMCSubmission(@RequestBody MCSubmission mcSubmission, @RequestParam(name = "file", required = false) MultipartFile file) throws IOException, URISyntaxException {
+    public ResponseEntity<MCSubmission> saveMCSubmission(@ModelAttribute MCSubmission mcSubmission, @RequestParam(name = "file", required = false) MultipartFile file) throws IOException, URISyntaxException {
         MCSubmission newMCSubmission = mcSubmissionService.saveMCSubmissionWithFileUpload(mcSubmission, file);
         return ResponseEntity.created(new URI("/mc-submissions/" + newMCSubmission.getMcId())).body(newMCSubmission);
     }
 
     // update mc submission
     @PutMapping("/{mcSubmissionId}")
-    public ResponseEntity<MCSubmission> updateMCSubmission(@PathVariable Long mcSubmissionId, @RequestBody MCSubmission mcSubmission, @RequestParam(name = "file", required = false) MultipartFile file) throws IOException {
+    public ResponseEntity<MCSubmission> updateMCSubmission(@PathVariable Long mcSubmissionId, @ModelAttribute MCSubmission mcSubmission, @RequestParam(name = "file", required = false) MultipartFile file) throws IOException {
         // get mc submission by id
         MCSubmission existingMCSubmission = mcSubmissionService.findById(mcSubmissionId);
 
         // check if mc submission exists
         if (existingMCSubmission != null) {
             // update mc submission
-            existingMCSubmission.setEmployee(mcSubmission.getEmployee());
-            existingMCSubmission.setMcDate(mcSubmission.getMcDate());
             existingMCSubmission.setReason(mcSubmission.getReason());
-            existingMCSubmission.setEmployee(mcSubmission.getEmployee());
 
             // save mc submission
             MCSubmission savedMCSubmission = mcSubmissionService.saveMCSubmissionWithFileUpload(existingMCSubmission, file);
@@ -74,7 +71,7 @@ public class MCSubmissionController {
 
     // delete mc submission
     @DeleteMapping("/{mcSubmissionId}")
-    public ResponseEntity<MCSubmission> deleteMCSubmission(@PathVariable Long mcSubmissionId) {
+    public String deleteMCSubmission(@PathVariable Long mcSubmissionId) {
         // get mc submission by id
         MCSubmission existingMCSubmission = mcSubmissionService.findById(mcSubmissionId);
 
@@ -82,9 +79,9 @@ public class MCSubmissionController {
         if (existingMCSubmission != null) {
             // delete mc submission
             mcSubmissionService.deleteById(mcSubmissionId);
-            return ResponseEntity.ok(existingMCSubmission);
+            return "MC submission deleted successfully";
         } else {
-            return ResponseEntity.notFound().build();
+            return "MC submission not found";
         }
     }
 }

@@ -29,9 +29,9 @@ public class MCSubmission {
     @JoinColumn(name = "employee_id")
     private Employee employee;
 
-    // method to convert the string to local date object
-    public LocalDate getMcDate() {
-        return LocalDate.parse(mcDate, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+    // getter for mc date
+    public String getMcDate() {
+        return mcDate;
     }
 
     // set the mc date
