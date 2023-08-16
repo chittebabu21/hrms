@@ -47,20 +47,18 @@ public class LeaveApplicationController {
     public ResponseEntity<LeaveApplication> updateLeaveApplicationById(@RequestBody LeaveApplication leaveApplication, @PathVariable Long leaveId) {
         // get leave application by id
         LeaveApplication existingLeaveApplication = leaveApplicationService.getLeaveApplicationById(leaveId);
+        System.out.println(existingLeaveApplication);
 
         // check if leave application exists
         if (existingLeaveApplication != null) {
             // update leave application
-            existingLeaveApplication.setLeaveDate(leaveApplication.getLeaveDate());
-            existingLeaveApplication.setReason(leaveApplication.getReason());
             existingLeaveApplication.setLeaveStatus(leaveApplication.getLeaveStatus());
-            existingLeaveApplication.setEmployee(leaveApplication.getEmployee());
 
             // save updated leave application
-            leaveApplicationService.saveLeaveApplication(existingLeaveApplication);
+            LeaveApplication updatedLeaveApplication = leaveApplicationService.saveLeaveApplication(existingLeaveApplication);
 
             // return updated leave application
-            return ResponseEntity.ok(existingLeaveApplication);
+            return ResponseEntity.ok(updatedLeaveApplication);
         } else {
             // return null if leave application does not exist
             return ResponseEntity.notFound().build();
@@ -72,6 +70,7 @@ public class LeaveApplicationController {
     public String deleteLeaveApplicationById(@PathVariable Long leaveId) {
         // get leave application by id
         LeaveApplication existingLeaveApplication = leaveApplicationService.getLeaveApplicationById(leaveId);
+        System.out.println(existingLeaveApplication);
 
         // check if leave application exists
         if (existingLeaveApplication != null) {

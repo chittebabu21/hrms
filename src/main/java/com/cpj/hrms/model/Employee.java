@@ -51,10 +51,19 @@ public class Employee {
     @Column(name = "created_on", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private String createdOn;
 
-    // method to convert the string to local date object
-    public LocalDate getDateOfBirth() {
-        return LocalDate.parse(dateOfBirth, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+    // getter method to return date
+    public String getDateOfBirth() {
+        return dateOfBirth;
     }
+
+    // method to convert the string to local date object
+//    public LocalDate getDateOfBirth() {
+//       if (dateOfBirth != null) {
+//           return LocalDate.parse(dateOfBirth, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+//       } else {
+//           return null;
+//       }
+//    }
 
     // set the date of birth
     public void setDateOfBirth(LocalDate dateOfBirth) {
