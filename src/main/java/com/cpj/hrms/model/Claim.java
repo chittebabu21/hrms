@@ -29,16 +29,16 @@ public class Claim {
     @Column(name = "file_upload")
     private String fileUpload;
 
-    @Column(name = "claim_status", nullable = false)
+    @Column(name = "claim_status")
     private String claimStatus;
 
     @ManyToOne
     @JoinColumn(name = "employee_id")
     private Employee employee;
 
-    // method to convert the string to local date object
-    public LocalDate getClaimDate() {
-        return LocalDate.parse(claimDate, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+    // getter to get claim date
+    public String getClaimDate() {
+        return claimDate;
     }
 
     // set the claim date

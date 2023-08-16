@@ -75,7 +75,28 @@ public class ClaimService {
         return savedClaim;
     }
 
-    // delete claim by id
+    // update claim status method
+    public Claim updateClaimStatus(Long claimId, Claim claim) {
+        // get claim by id
+        Claim existingClaim = claimRepository.findById(claimId).orElse(null);
+
+        // check if claim exists
+        if (existingClaim != null) {
+            // update claim status
+            existingClaim.setClaimStatus(claim.getClaimStatus());
+
+            // save claim
+            Claim updatedClaim = claimRepository.save(existingClaim);
+
+            // return updated claim
+            return updatedClaim;
+        } else {
+            // throw exception if claim does not exist
+            throw new RuntimeException("Claim not found");
+        }
+    }
+
+    // delete claim
     public void deleteClaimById(Long claimId) {
         claimRepository.deleteById(claimId);
     }

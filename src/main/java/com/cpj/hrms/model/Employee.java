@@ -56,15 +56,6 @@ public class Employee {
         return dateOfBirth;
     }
 
-    // method to convert the string to local date object
-//    public LocalDate getDateOfBirth() {
-//       if (dateOfBirth != null) {
-//           return LocalDate.parse(dateOfBirth, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-//       } else {
-//           return null;
-//       }
-//    }
-
     // set the date of birth
     public void setDateOfBirth(LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));

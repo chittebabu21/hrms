@@ -29,9 +29,9 @@ public class LeaveApplication {
     @JoinColumn(name = "employee_id", nullable = false)
     private Employee employee;
 
-    // method to convert the string to local date object
-    public LocalDate getLeaveDate() {
-        return LocalDate.parse(leaveDate, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+    // getter to get leave date
+    public String getLeaveDate() {
+        return leaveDate;
     }
 
     // set the leave date

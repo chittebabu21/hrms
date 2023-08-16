@@ -52,24 +52,17 @@ public class ClaimController {
 
     // update claim
     @PutMapping("/{claimId}")
-    public ResponseEntity<Claim> updateClaim(@PathVariable Long claimId, @ModelAttribute Claim claim, @RequestParam(name = "file", required = false) MultipartFile file) throws IOException {
+    public ResponseEntity<Claim> updateClaim(@PathVariable Long claimId, @ModelAttribute Claim claim) throws IOException {
         // get claim by id
         Claim existingClaim = claimService.findById(claimId);
 
         // check if claim exists
         if (existingClaim != null) {
-            // update claim
-            existingClaim.setClaimDate(claim.getClaimDate());
-            existingClaim.setClaimType(claim.getClaimType());
-            existingClaim.setClaimAmount(claim.getClaimAmount());
-            existingClaim.setClaimStatus(claim.getClaimStatus());
-            existingClaim.setEmployee(claim.getEmployee());
-
             // save updated claim
-            claimService.saveClaimWithFileUpload(existingClaim, file);
+            Claim updatedClaim = claimService.updateClaimStatus(claimId, claim);
 
             // return response
-            return ResponseEntity.ok(existingClaim);
+            return ResponseEntity.ok(updatedClaim);
         }
         // return response
         return ResponseEntity.notFound().build();
