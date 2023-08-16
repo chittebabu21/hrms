@@ -47,7 +47,6 @@ public class LeaveApplicationController {
     public ResponseEntity<LeaveApplication> updateLeaveApplicationById(@RequestBody LeaveApplication leaveApplication, @PathVariable Long leaveId) {
         // get leave application by id
         LeaveApplication existingLeaveApplication = leaveApplicationService.getLeaveApplicationById(leaveId);
-        System.out.println(existingLeaveApplication);
 
         // check if leave application exists
         if (existingLeaveApplication != null) {
