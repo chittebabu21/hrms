@@ -42,6 +42,9 @@ public class Employee {
     @Column(name = "skills")
     private String skills;
 
+    @Column(name = "employee_position")
+    private String employeePosition;
+
     @Column(name = "reports_to")
     private String reportsTo;
 

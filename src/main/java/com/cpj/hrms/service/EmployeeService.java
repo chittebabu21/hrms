@@ -20,6 +20,11 @@ public class EmployeeService {
         return employeeRepository.findAll();
     }
 
+    // find employees by position
+    public List<Employee> getEmployeesByEmployeePosition(String employeePosition) {
+        return employeeRepository.findByEmployeePosition(employeePosition);
+    }
+
     // find employee by id
     public Employee getEmployeeById(Long employeeId) {
         return employeeRepository.findById(employeeId).orElse(null);

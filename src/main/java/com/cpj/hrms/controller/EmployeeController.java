@@ -23,6 +23,20 @@ public class EmployeeController {
         return employeeService.getAllEmployees();
     }
 
+    // get employees by position
+    @GetMapping("/position/{employeePosition}")
+    public List<Employee> getEmployeesByEmployeePosition(@PathVariable String employeePosition) {
+        // get employees by position
+        List<Employee> employeesByPosition = employeeService.getEmployeesByEmployeePosition(employeePosition);
+
+        // check if employees exist
+        if (employeesByPosition != null) {
+            return employeesByPosition;
+        } else {
+            return null;
+        }
+    }
+
     // get employee by id
     @GetMapping("/{employeeId}")
     public Employee getEmployeeById(@PathVariable Long employeeId) {
