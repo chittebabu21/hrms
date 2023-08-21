@@ -1,7 +1,13 @@
 package com.cpj.hrms.controller;
 
+import com.cpj.hrms.model.Claim;
 import com.cpj.hrms.model.Employee;
+import com.cpj.hrms.model.LeaveApplication;
+import com.cpj.hrms.model.MCSubmission;
+import com.cpj.hrms.service.ClaimService;
 import com.cpj.hrms.service.EmployeeService;
+import com.cpj.hrms.service.LeaveApplicationService;
+import com.cpj.hrms.service.MCSubmissionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +22,15 @@ public class EmployeeController {
     // get access to service layer
     @Autowired
     private EmployeeService employeeService;
+
+    @Autowired
+    private ClaimService claimService;
+
+    @Autowired
+    private LeaveApplicationService leaveApplicationService;
+
+    @Autowired
+    private MCSubmissionService mcSubmissionService;
 
     // get all employees
     @GetMapping
@@ -75,6 +90,7 @@ public class EmployeeController {
             existingEmployee.setAddress(employee.getAddress());
             existingEmployee.setQualifications(employee.getQualifications());
             existingEmployee.setSkills(employee.getSkills());
+            existingEmployee.setEmployeePosition(employee.getEmployeePosition());
             existingEmployee.setReportsTo(employee.getReportsTo());
             existingEmployee.setEmergencyContact(employee.getEmergencyContact());
 
@@ -119,6 +135,30 @@ public class EmployeeController {
 
         // check if employee exists
         if (existingEmployee != null) {
+            // get list of claims, leave applications and mc submissions by employee id
+            List<Claim> claims = claimService.findByEmployeeId(employeeId);
+            List<LeaveApplication> leaveApplications = leaveApplicationService.getLeaveApplicationByEmployeeId(employeeId);
+            List<MCSubmission> mcSubmissions = mcSubmissionService.findByEmployeeId(employeeId);
+
+            // check and delete related fields in other models
+            if (!claims.isEmpty()) {
+                for (Claim claim : claims) {
+                    claimService.deleteClaimById(claim.getClaimId());
+                }
+            }
+
+            if (!leaveApplications.isEmpty()) {
+                for (LeaveApplication leaveApplication : leaveApplications) {
+                    leaveApplicationService.deleteLeaveApplication(leaveApplication.getLeaveId());
+                }
+            }
+
+            if (!mcSubmissions.isEmpty()) {
+                for (MCSubmission mcSubmission : mcSubmissions) {
+                    mcSubmissionService.deleteById(mcSubmission.getMcId());
+                }
+            }
+
             // delete employee
             employeeService.deleteEmployee(employeeId);
 
