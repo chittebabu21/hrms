@@ -1,6 +1,7 @@
 package com.cpj.hrms.controller;
 
 import com.cpj.hrms.model.Claim;
+import com.cpj.hrms.model.LeaveApplication;
 import com.cpj.hrms.service.ClaimService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
 
 @RestController
 @RequestMapping("/claims")
@@ -29,6 +31,11 @@ public class ClaimController {
     @GetMapping("/{claimId}")
     public ResponseEntity<Claim> findById(@PathVariable Long claimId) {
         return ResponseEntity.ok(claimService.findById(claimId));
+    }
+
+    @GetMapping("/status")
+    public List<Claim> getAllClaimsByStatus(@RequestParam String status) {
+        return claimService.getClaimsByStatus(status);
     }
 
     // get claims by employee id
@@ -66,6 +73,47 @@ public class ClaimController {
         }
         // return response
         return ResponseEntity.notFound().build();
+    }
+
+    @PutMapping("/approve/{claimId}")
+    public ResponseEntity<Claim> approveClaimById(@PathVariable Long claimId) {
+        // get leave application by id
+        Claim existingClaim = claimService.findById(claimId);
+
+        // check if leave application exists
+        if (existingClaim != null) {
+            // update leave application
+            existingClaim.setClaimStatus("APPROVED");
+
+//            // save updated leave application
+            Claim updatedClaim = claimService.updateClaimStatus(claimId, existingClaim);
+
+            // return updated leave applicatioen
+            return ResponseEntity.ok(updatedClaim);
+        } else {
+            // return null if leave application does not exist
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PutMapping("/reject/{claimId}")
+    public ResponseEntity<Claim> rejectClaimById(@PathVariable Long claimId) {
+        Claim existingClaim = claimService.findById(claimId);
+
+        // check if leave application exists
+        if (existingClaim != null) {
+            // update leave application
+            existingClaim.setClaimStatus("REJECTED");
+
+//            // save updated leave application
+            Claim updatedClaim = claimService.updateClaimStatus(claimId, existingClaim);
+
+            // return updated leave applicatioen
+            return ResponseEntity.ok(updatedClaim);
+        } else {
+            // return null if leave application does not exist
+            return ResponseEntity.notFound().build();
+        }
     }
 
     // delete claim by id

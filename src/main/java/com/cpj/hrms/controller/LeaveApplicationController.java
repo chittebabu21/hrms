@@ -23,6 +23,11 @@ public class LeaveApplicationController {
         return leaveApplicationService.getAllLeaveApplications();
     }
 
+    @GetMapping("/status")
+    public List<LeaveApplication> getAllLeaveApplicationsByStatus(@RequestParam String status) {
+        return leaveApplicationService.getLeaveApplicationsByStatus(status);
+    }
+
     // get leave application by id
     @GetMapping("/{leaveId}")
     public LeaveApplication getLeaveApplicationById(@PathVariable Long leaveId) {
@@ -52,6 +57,48 @@ public class LeaveApplicationController {
         if (existingLeaveApplication != null) {
             // update leave application
             existingLeaveApplication.setLeaveStatus(leaveApplication.getLeaveStatus());
+
+            // save updated leave application
+            LeaveApplication updatedLeaveApplication = leaveApplicationService.saveLeaveApplication(existingLeaveApplication);
+
+            // return updated leave application
+            return ResponseEntity.ok(updatedLeaveApplication);
+        } else {
+            // return null if leave application does not exist
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PutMapping("/approve/{leaveId}")
+    public ResponseEntity<LeaveApplication> approveLeaveApplicationById(@PathVariable Long leaveId) {
+        // get leave application by id
+        LeaveApplication existingLeaveApplication = leaveApplicationService.getLeaveApplicationById(leaveId);
+
+        // check if leave application exists
+        if (existingLeaveApplication != null) {
+            // update leave application
+            existingLeaveApplication.setLeaveStatus("APPROVED");
+
+            // save updated leave application
+            LeaveApplication updatedLeaveApplication = leaveApplicationService.saveLeaveApplication(existingLeaveApplication);
+
+            // return updated leave application
+            return ResponseEntity.ok(updatedLeaveApplication);
+        } else {
+            // return null if leave application does not exist
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PutMapping("/reject/{leaveId}")
+    public ResponseEntity<LeaveApplication> rejectLeaveApplicationById(@PathVariable Long leaveId) {
+        // get leave application by id
+        LeaveApplication existingLeaveApplication = leaveApplicationService.getLeaveApplicationById(leaveId);
+
+        // check if leave application exists
+        if (existingLeaveApplication != null) {
+            // update leave application
+            existingLeaveApplication.setLeaveStatus("REJECTED");
 
             // save updated leave application
             LeaveApplication updatedLeaveApplication = leaveApplicationService.saveLeaveApplication(existingLeaveApplication);
