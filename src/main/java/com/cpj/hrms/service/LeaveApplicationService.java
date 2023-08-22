@@ -20,6 +20,10 @@ public class LeaveApplicationService {
         return leaveApplicationRepository.findAll();
     }
 
+    public List<LeaveApplication> getLeaveApplicationsByStatus(String status) {
+        return leaveApplicationRepository.findByLeaveStatus(status);
+    }
+
     // find leave application by id
     public LeaveApplication getLeaveApplicationById(Long leaveId) {
         return leaveApplicationRepository.findById(leaveId).orElse(null);

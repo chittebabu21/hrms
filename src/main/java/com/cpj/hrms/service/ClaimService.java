@@ -1,6 +1,7 @@
 package com.cpj.hrms.service;
 
 import com.cpj.hrms.model.Claim;
+import com.cpj.hrms.model.LeaveApplication;
 import com.cpj.hrms.repository.ClaimRepository;
 import jakarta.transaction.Transactional;
 import org.apache.tomcat.util.http.fileupload.impl.IOFileUploadException;
@@ -24,6 +25,10 @@ public class ClaimService {
     // find all claims
     public List<Claim> findAll() {
         return claimRepository.findAll();
+    }
+
+    public List<Claim> getClaimsByStatus(String status) {
+        return claimRepository.findByClaimStatus(status);
     }
 
     // find claim by id
