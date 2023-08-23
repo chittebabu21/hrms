@@ -23,8 +23,8 @@ public class LeaveApplicationController {
         return leaveApplicationService.getAllLeaveApplications();
     }
 
-    @GetMapping("/status")
-    public List<LeaveApplication> getAllLeaveApplicationsByStatus(@RequestParam String status) {
+    @GetMapping("/status/{status}")
+    public List<LeaveApplication> getAllLeaveApplicationsByStatus(@PathVariable String status) {
         return leaveApplicationService.getLeaveApplicationsByStatus(status);
     }
 

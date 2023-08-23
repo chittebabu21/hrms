@@ -33,9 +33,9 @@ public class ClaimController {
         return ResponseEntity.ok(claimService.findById(claimId));
     }
 
-    @GetMapping("/status")
-    public List<Claim> getAllClaimsByStatus(@RequestParam String status) {
-        return claimService.getClaimsByStatus(status);
+    @GetMapping("/status/{claimStatus}")
+    public List<Claim> getAllClaimsByClaimStatus(@PathVariable String claimStatus) {
+        return claimService.getClaimsByClaimStatus(claimStatus);
     }
 
     // get claims by employee id

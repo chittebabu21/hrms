@@ -27,7 +27,7 @@ public class ClaimService {
         return claimRepository.findAll();
     }
 
-    public List<Claim> getClaimsByStatus(String status) {
+    public List<Claim> getClaimsByClaimStatus(String status) {
         return claimRepository.findByClaimStatus(status);
     }
 
